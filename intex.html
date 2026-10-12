@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maa Vaishno Mart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f7f4;
+      color: #222;
+    }
+    header {
+      background: #08783e;
+      color: white;
+      padding: 22px 12px;
+      text-align: center;
+    }
+    .search {
+      display: block;
+      width: 85%;
+      max-width: 500px;
+      margin: 18px auto;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    h2 { text-align: center; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 14px;
+      padding: 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 2px 7px #ddd;
+    }
+    .emoji { font-size: 42px; }
+    .price { color: #08783e; font-weight: bold; }
+    button {
+      background: #08783e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .order {
+      display: block;
+      width: fit-content;
+      margin: 20px auto;
+      padding: 14px 22px;
+      text-decoration: none;
+      color: white;
+      background: #128c4a;
+      border-radius: 8px;
+    }
+    footer {
+      text-align: center;
+      background: #e5eee7;
+      padding: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🛒 Maa Vaishno Mart</h1>
+  <p>आपकी अपनी भरोसेमंद किराना दुकान</p>
+</header>
+
+<input class="search" id="search" placeholder="सामान खोजें..." oninput="filterProducts()">
+
+<h2>हमारे प्रोडक्ट्स</h2>
+
+<div class="products" id="products">
+  <div class="card">
+    <div class="emoji">🌾</div>
+    <h3>आटा 5 kg</h3>
+    <p class="price">₹250</p>
+    <button onclick="add('आटा 5 kg',250)">कार्ट में डालें</button>
+  </div>
+  <div class="card">
+    <div class="emoji">🍚</div>
+    <h3>चावल 5 kg</h3>
+    <p class="price">₹300</p>
+    <button onclick="add('चावल 5 kg',300)">कार्ट में डालें</button>
+  </div>
+  <div class="card">
+    <div class="emoji">🛢️</div>
+    <h3>खाने का तेल 1 L</h3>
+    <p class="price">₹150</p>
+    <button onclick="add('खाने का तेल 1 L',150)">कार्ट में डालें</button>
+  </div>
+  <div class="card">
+    <div class="emoji">🍬</div>
+    <h3>चीनी 1 kg</h3>
+    <p class="price">₹45</p>
+    <button onclick="add('चीनी 1 kg',45)">कार्ट में डालें</button>
+  </div>
+  <div class="card">
+    <div class="emoji">🥛</div>
+    <h3>दूध 1 L</h3>
+    <p class="price">₹60</p>
+    <button onclick="add('दूध 1 L',60)">कार्ट में डालें</button>
+  </div>
+  <div class="card">
+    <div class="emoji">🧂</div>
+    <h3>नमक 1 kg</h3>
+    <p class="price">₹25</p>
+    <button onclick="add('नमक 1 kg',25)">कार्ट में डालें</button>
+  </div>
+</div>
+
+<h2>🛍️ आपका कार्ट</h2>
+<div id="cart" style="text-align:center;padding:10px">अभी कार्ट खाली है</div>
+<h3 id="total" style="text-align:center">कुल: ₹0</h3>
+
+<a class="order" href="#" onclick="orderWhatsApp()">WhatsApp पर ऑर्डर करें</a>
+
+<footer>
+  <p>© Maa Vaishno Mart</p>
+  <p>ताज़ा सामान, सही दाम!</p>
+</footer>
+
+<script>
+  let cart = [];
+
+  function add(name, price) {
+    cart.push({name, price});
+    showCart();
+  }
+
+  function showCart() {
+    document.getElementById('cart').innerHTML =
+      cart.length
+      ? cart.map(p => `${p.name} — ₹${p.price}`).join('<br>')
+      : 'अभी कार्ट खाली है';
+
+    document.getElementById('total').textContent =
+      'कुल: ₹' + cart.reduce((sum, p) => sum + p.price, 0);
+  }
+
+  function filterProducts() {
+    let q = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  function orderWhatsApp() {
+    if (!cart.length) {
+      alert('पहले कार्ट में सामान डालें।');
+      return;
+    }
+    let message = 'Namaste Maa Vaishno Mart! Mera order:\\n' +
+      cart.map(p => p.name + ' - ₹' + p.price).join('\\n') +
+      '\\nTotal: ₹' + cart.reduce((sum, p) => sum + p.price, 0);
+    alert('WhatsApp ऑर्डर चालू करने के लिए पहले दुकान का WhatsApp नंबर सेट करना होगा।');
+  }
+</script>
+
+</body>
+</html>
